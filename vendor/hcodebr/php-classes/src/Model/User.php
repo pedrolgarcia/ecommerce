@@ -50,6 +50,27 @@
             session_unset($_SESSION[User::SESSION]);
         }
 
+        public static function listAll()
+        {
+            $sql = new Sql();
+            return $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) ORDER BY b.desperson");
+        }
+
+        public function save()
+        {
+            $sql = new Sql();
+            $res = $sql->select("CALL sp_users_save(:desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
+                ":desperson"=>$this->getdesperson(),
+                ":deslogin"=>$this->getdeslogin(), 
+                ":despassword"=>$this->getdespassword(),
+                ":desemail"=>$this->getdesemail(),
+                ":nrphone"=>$this->getnrphone(),
+                ":inadmin"=>$this->getinadmin()
+            ));
+
+            $this->setData($res[0]);
+        }
+
     }
 
 ?>
