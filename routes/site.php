@@ -6,6 +6,7 @@
 
 	$app->get('/', function() {
 		$products = Product::listAll();
+		
 		$page = new Page();
 		$page->setTpl("index", array(
 			"products"=>Product::checkList($products)
@@ -20,8 +21,8 @@
 		$page = new Page();
 		$page->setTpl("category", array(
 			"category"=>$category->getValues(),
-			"products"=>array()
+			"products"=>Product::checkList($category->getProducts())
 		));
-    });
+	});
 
 ?>
