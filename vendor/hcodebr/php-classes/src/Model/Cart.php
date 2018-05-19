@@ -220,16 +220,31 @@
             }
             else
             {
-
+                
             }
         }
+
+        public function checkZipCode() {
+ 
+            $products = $this->getProducts();
+      
+            if (!count($products) > 0) 
+            {
+                 $this->setdeszipcode('');
+                 $this->setvlfreight(0);
+                 $this->setvlsubtotal(0);
+                 $this->setnrdays(0);
+                 $this->setvltotal(0);
+                 $_SESSION[Cart::SESSION] = $this->getValues();
+           }
+     }
 
         public function updateFreight()
         {
             if($this->getdeszipcode() != "")
             {
                 $this->setFreight($this->getdeszipcode());
-            }
+            } 
         }
 
         public static function formatValueToDecimal($value):float
