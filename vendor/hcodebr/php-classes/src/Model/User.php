@@ -12,6 +12,7 @@
         const SECRET = "HcodePhp7_Secret";
         const ERROR = "UserError";
         const ERROR_REGISTER = "UserErrorRegister";
+        const SUCCESS = "UserSuccess";
 
         public static function getFromSession()
         {
@@ -130,14 +131,23 @@
 
         }
 
-        public function update()
+        public function update(/*$changePassword = true*/)
         {
+            /*if ($changePassword) 
+            {
+                $password = User::getPasswordHash($this->getdespassword());
+            } 
+            else 
+            {
+                $password = $_POST['despassword'];
+            }*/
+
             $sql = new Sql();
             $res = $sql->select("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
                 ":iduser"=>$this->getiduser(),
                 ":desperson"=>utf8_decode($this->getdesperson()),
                 ":deslogin"=>$this->getdeslogin(), 
-                ":despassword"=>User::getPasswordHash($this->getdespassword()),
+                ":despassword"=>$this->getdespassword(),
                 ":desemail"=>$this->getdesemail(),
                 ":nrphone"=>$this->getnrphone(),
                 ":inadmin"=>$this->getinadmin()
@@ -246,6 +256,13 @@
             ));
         }
 
+        public static function getPasswordHash($password)
+        {
+            return password_hash($password, PASSWORD_DEFAULT, array(
+                "cost"=>12
+            ));
+        }
+
         public static function setError($msg)
         {
             $_SESSION[User::ERROR] = $msg;
@@ -253,7 +270,7 @@
 
         public static function getError()
         {
-            $msg = (isset($_SESSION[User::ERROR]) && $_SESSION[User::ERROR_REGISTER]) ? $_SESSION[User::ERROR] : "";
+            $msg = (isset($_SESSION[User::ERROR]) && $_SESSION[User::ERROR]) ? $_SESSION[User::ERROR] : "";
             User::clearError();
 
             return $msg;
@@ -264,11 +281,22 @@
             $_SESSION[User::ERROR] = NULL;
         }
 
-        public static function getPasswordHash($password)
+        public static function setSuccess($msg)
         {
-            return password_hash($password, PASSWORD_DEFAULT, array(
-                "cost"=>12
-            ));
+            $_SESSION[User::SUCCESS] = $msg;
+        }
+
+        public static function getSuccess()
+        {
+            $msg = (isset($_SESSION[User::SUCCESS]) && $_SESSION[User::SUCCESS]) ? $_SESSION[User::SUCCESS] : "";
+            User::clearSuccess();
+
+            return $msg;
+        }
+
+        public static function clearSuccess()
+        {
+            $_SESSION[User::SUCCESS] = NULL;
         }
 
         public static function setErrorRegister($msg)
