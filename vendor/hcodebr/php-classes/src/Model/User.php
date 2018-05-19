@@ -11,6 +11,7 @@
         const SESSION = "User";
         const SECRET = "HcodePhp7_Secret";
         const ERROR = "UserError";
+        const ERROR_REGISTER = "UserErrorRegister";
 
         public static function getFromSession()
         {
@@ -252,7 +253,7 @@
 
         public static function getError()
         {
-            $msg = (isset($_SESSION[User::ERROR])) ? $_SESSION[User::ERROR] : "";
+            $msg = (isset($_SESSION[User::ERROR]) && $_SESSION[User::ERROR_REGISTER]) ? $_SESSION[User::ERROR] : "";
             User::clearError();
 
             return $msg;
@@ -268,6 +269,34 @@
             return password_hash($password, PASSWORD_DEFAULT, array(
                 "cost"=>12
             ));
+        }
+
+        public static function setErrorRegister($msg)
+        {
+            $_SESSION[User::ERROR_REGISTER] = $msg;
+        }
+
+        public static function getErrorRegister()
+        {
+            $msg = (isset($_SESSION[User::ERROR_REGISTER]) && $_SESSION[User::ERROR_REGISTER]) ? $_SESSION[User::ERROR_REGISTER] : "";
+            User::clearErrorRegister();
+
+            return $msg;
+        }
+
+        public static function clearErrorRegister()
+        {
+            $_SESSION[User::ERROR_REGISTER] = NULL;
+        }
+
+        public static function checkLoginExist($login)
+        {
+            $sql = new Sql();
+            $res = $sql->select("SELECT * FROM tb_users WHERE deslogin = :deslogin", array(
+                ":deslogin"=>$login
+            ));
+
+            return (count($res) > 0);
         }
     }
 
