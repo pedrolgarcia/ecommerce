@@ -66,7 +66,7 @@
                 $data["desperson"] = utf8_encode($data["desperson"]);
                 $user->setData($data);
                 $_SESSION[User::SESSION] = $user->getValues();
-
+                
                 return $user;
 
             } else {
@@ -131,17 +131,8 @@
 
         }
 
-        public function update(/*$changePassword = true*/)
+        public function update()
         {
-            /*if ($changePassword) 
-            {
-                $password = User::getPasswordHash($this->getdespassword());
-            } 
-            else 
-            {
-                $password = $_POST['despassword'];
-            }*/
-
             $sql = new Sql();
             $res = $sql->select("CALL sp_usersupdate_save(:iduser, :desperson, :deslogin, :despassword, :desemail, :nrphone, :inadmin)", array(
                 ":iduser"=>$this->getiduser(),
