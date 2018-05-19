@@ -4,7 +4,6 @@
 
     use \Hcode\DB\Sql;
     use \Hcode\Model;
-    use \Hcode\Mailer;
 
     class Product extends Model {
 
