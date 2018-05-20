@@ -66,7 +66,7 @@
                 $data["desperson"] = utf8_encode($data["desperson"]);
                 $user->setData($data);
                 $_SESSION[User::SESSION] = $user->getValues();
-                
+
                 return $user;
 
             } else {
@@ -316,6 +316,24 @@
             ));
 
             return (count($res) > 0);
+        }
+
+        public function getOrders()
+        {
+            $sql = new Sql();
+            $res = $sql->select(
+                "SELECT * FROM tb_orders a 
+                INNER JOIN tb_ordersstatus b USING(idstatus)
+                INNER JOIN tb_carts c USING(idcart)
+                INNER JOIN tb_users d ON d.iduser = a.iduser
+                INNER JOIN tb_addresses e USING(idaddress)
+                INNER JOIN tb_persons f ON f.idperson = d.idperson
+                WHERE a.iduser = :iduser
+            ", array(
+                ":iduser"=>$this->getiduser()
+            ));
+
+            return $res;
         }
     }
 
