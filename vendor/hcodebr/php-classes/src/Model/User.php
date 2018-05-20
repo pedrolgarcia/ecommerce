@@ -245,6 +245,7 @@
                 ":password"=>$password,
                 ":iduser"=>$this->getiduser()
             ));
+            
         }
 
         public static function getPasswordHash($password)
