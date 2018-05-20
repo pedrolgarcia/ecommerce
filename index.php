@@ -11,6 +11,7 @@
 	require_once "routes".DIRECTORY_SEPARATOR."functions.php";
 	require_once "routes".DIRECTORY_SEPARATOR."admin.php";
 	require_once "routes".DIRECTORY_SEPARATOR."admin-users.php";
+	require_once "routes".DIRECTORY_SEPARATOR."admin-products.php";
 	require_once "routes".DIRECTORY_SEPARATOR."admin-categories.php";
 	require_once "routes".DIRECTORY_SEPARATOR."admin-orders.php";
 	require_once "routes".DIRECTORY_SEPARATOR."site.php";
