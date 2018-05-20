@@ -46,7 +46,7 @@
         $user = new User();
         $user->get((int)$iduser);
         $user->setPassword(User::getPasswordHash($_POST["despassword"]));
-        
+
         User::setSuccess("Senha alterada com sucesso!");   
         header("Location: /admin/users/$iduser/password");
         exit; 
